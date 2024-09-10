@@ -260,7 +260,7 @@ while Run == True:
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    print('escape')
+                    print('Unpaused')
                     Pause = False
                     time.sleep(0.2)
 
@@ -290,7 +290,7 @@ while Run == True:
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    print('escape')
+                    print('Paused')
                     Pause = True
                     time.sleep(0.2)
 
