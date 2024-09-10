@@ -31,14 +31,13 @@ print('Pygame initiated')
 
 # Set the width and height of the screen (width, height)
 Size = (1920, 1080)
+screen = pygame.display.set_mode((Size), pygame.RESIZABLE)
+ScreenSize = (Size[0], Size[1])
 Center_X= Size[0] // 2
 Center_Y = Size[1] // 2
-screen = pygame.display.set_mode((Size), pygame.RESIZABLE)
 
 print('Screen set')
 
-import os 
-import sys 
 script_directory = os.path.dirname(os.path.abspath(sys.argv[0])) 
 print(script_directory)
 
@@ -92,7 +91,6 @@ LIGHT_BROWN = (196, 164, 132)
 YELLOW = (255, 255, 0)
 
 cover = pygame.image.load(str(script_directory) + '/Cover.jpeg').convert()
-cover = pygame.transform.scale(cover, (Size[1] / 2, Size[1] / 2))
 
 clock = pygame.time.Clock()
 
@@ -193,6 +191,12 @@ while  Home_screen == True:
             print('Game Closed')
             pygame.quit()
             exit()
+        if event.type == pygame.VIDEORESIZE:
+            width, height = event.w, event.h
+            screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+            ScreenSize = (width, height)
+            print(ScreenSize)
+
         if Menu == 'home':
             if play_button.click(event):
                 Home_screen = False
@@ -212,7 +216,9 @@ while  Home_screen == True:
     screen.fill(BLACK)
 
     if Menu == 'home':
-        screen.blit(cover, (Size[0] / 4, Size[1] / 4))
+        
+        scaledcover = pygame.transform.scale(cover, (ScreenSize[0] / 4, ScreenSize[0] / 4))
+        screen.blit(scaledcover, (ScreenSize[0] / 4, ScreenSize[1] / 4))
 
     if Menu == 'home':
         play_button.show(screen)
@@ -236,7 +242,7 @@ while  Home_screen == True:
 
 # Create Pause Buttons
 font = None
-play_button = Button('Play', (20, 200), font)
+resume_button = Button('Play', (1000, 100), font)
 options_button = Button('Options', (20, 300), font)
 quit_button = Button('Quit', (20, 400), font)
 fulscreen_button = Button('Toggle Fulscreen', (20, 200), font)
@@ -264,8 +270,13 @@ while Run == True:
                     Pause = False
                     time.sleep(0.2)
 
+        if resume_button.click(event):
+            Home_screen = False
+
+        play_button.show(screen)
+
         # Draw the button background
-        pygame.draw.rect(screen, BLUE, (Size[0] / 4, 0, Size[0] / 2, Size[1]))
+        pygame.draw.rect(screen, GREY, (ScreenSize[0] / 4, 0, Center_X, ScreenSize[1]))
 
         # --- Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
